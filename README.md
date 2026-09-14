@@ -1,5 +1,7 @@
 # OverTheWire: Natas
 
+> Este repositorio es parte de **[sec-proy](https://github.com/hackadvisermx/sec-proy)**, un proyecto más amplio de soluciones a retos de ciberseguridad (CTFs, wargames y máquinas de hacking).
+
 Writeups y automatización de los 35 niveles (00-34) del wargame web [Natas](https://overthewire.org/wargames/natas/) de OverTheWire. A diferencia de Bandit (SSH), cada nivel de Natas es una aplicación web distinta servida por HTTP, y la contraseña de cada nivel se obtiene explotando una vulnerabilidad concreta de esa aplicación (autenticación básica HTTP: usuario `natasN`, contraseña obtenida al resolver el nivel `N-1`).
 
 ## Contenido
@@ -18,3 +20,7 @@ Un recorrido representativo de vulnerabilidades web clásicas, cada una aislada 
 ## Uso
 
 Cada writeup incluye los comandos exactos (`curl`, Python) para reproducir la explotación manualmente. El nivel 33 requiere además un binario `php` local (p. ej. `brew install php`) para generar un `.phar` malicioso.
+
+## Aviso
+
+Este material es para uso educativo propio sobre un wargame público que autoriza explícitamente su resolución. Evita publicar las contraseñas o soluciones textuales fuera de un contexto de práctica personal como este.
