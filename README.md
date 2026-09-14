@@ -6,15 +6,10 @@ Writeups y automatización de los 35 niveles (00-34) del wargame web [Natas](htt
 
 - **[`PROGRESS.md`](PROGRESS.md)** — estado de avance por nivel, fases del proyecto y notas relevantes descubiertas durante la resolución (matices de collation en MySQL, inconsistencias explotables entre funciones, bugs encontrados al automatizar, etc.).
 - **`levels/levelNN/README.md`** — un writeup por nivel (00 a 34), cada uno con: el objetivo oficial del reto, la explicación de la vulnerabilidad y la solución paso a paso con los comandos usados, notas adicionales, y referencias de apoyo. `levels/_template/` contiene la plantilla usada para escribir cada writeup.
-- **[`notes/host-characteristics.md`](notes/host-characteristics.md)** — notas técnicas sobre la infraestructura del wargame (acceso, patrones de vulnerabilidad recurrentes, ideas para replicar un entorno similar en contenedor).
 - **`scripts/`**:
-  - **[`solve_level.py`](scripts/solve_level.py)** — script en Python puro (solo depende de `requests`) que automatiza la explotación de los 34 niveles resolubles (0→33), reproduciendo la técnica documentada en cada writeup. Guarda cada contraseña obtenida en `scripts/passwords.json` (no versionado) para poder encadenar niveles sin volver a pasar `--password`.
-    ```bash
-    python3 scripts/solve_level.py --level N [--password XXX] [--all]
-    ```
   - **[`natas_get.sh`](scripts/natas_get.sh)** — helper en bash para hacer peticiones GET autenticadas rápidas desde la terminal (`curl` con HTTP Basic Auth).
 
-Las contraseñas reales (`scripts/passwords.json`, `scripts/creds.txt`) no se versionan — ver [`.gitignore`](.gitignore).
+Las contraseñas reales y la automatización local de niveles no se versionan — ver [`.gitignore`](.gitignore).
 
 ## Técnicas cubiertas
 
@@ -22,10 +17,4 @@ Un recorrido representativo de vulnerabilidades web clásicas, cada una aislada 
 
 ## Uso
 
-Cada writeup incluye los comandos exactos (`curl`, Python) para reproducir la explotación manualmente. Para resolver todo automáticamente:
-
-```bash
-python3 scripts/solve_level.py --level 0 --password natas0 --all
-```
-
-El nivel 33 requiere además un binario `php` local (p. ej. `brew install php`) para generar un `.phar` malicioso.
+Cada writeup incluye los comandos exactos (`curl`, Python) para reproducir la explotación manualmente. El nivel 33 requiere además un binario `php` local (p. ej. `brew install php`) para generar un `.phar` malicioso.

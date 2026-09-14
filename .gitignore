@@ -1,4 +1,6 @@
 scripts/passwords.json
 scripts/creds.txt
+scripts/solve_level.py
+notes/host-characteristics.md
 __pycache__/
 *.pyc

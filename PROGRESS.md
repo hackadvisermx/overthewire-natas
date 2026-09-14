@@ -44,9 +44,8 @@ Estado de avance por nivel. Contraseñas se guardan solo localmente (no se suben
 
 ## Fases del proyecto
 1. ✅ **Resolver los 35 niveles (0-34) con writeups** — completo
-2. ✅ **Notas de arquitectura del host** (`notes/host-characteristics.md`) — completo, recopiladas durante la fase 1
-3. ⏳ **Contenedor de práctica local** replicando la estructura — futuro
-4. ⏳ **Mejora pedagógica de la secuencia** para estudiantes — futuro
+2. ⏳ **Contenedor Docker de práctica local** con la misma estructura.
+3. ⏳ **Mejorar la secuencia y el contenido de los retos con fines pedagógicos.**
 
 ## Notas de progreso
 - Resuelto con `curl` (autenticación básica, cookies, multipart, headers) y Python (`requests`) para ataques automatizados (blind SQLi carácter a carácter, brute-force de sesiones, generación de payloads XOR/PHP object injection).
@@ -56,8 +55,7 @@ Estado de avance por nivel. Contraseñas se guardan solo localmente (no se suben
   - **31**: la explotación inicial (con `cat ... |` como varias "keywords") en realidad solo lograba lectura de archivo (LFI), no ejecución de comandos — se corrigió el writeup tras verificarlo con el nivel 32, que exige demostrar ejecución real y reveló el verdadero mecanismo (`%20` en vez de `+` para mantener una única entrada de `@ARGV` con espacios internos).
   - **33**: resuelto con deserialización de metadatos de Phar (`phar://`), generando un `.phar` malicioso localmente con PHP (instalado vía Homebrew para esta sesión) cuyos metadatos son un objeto `Executor` forjado.
 - Helper genérico en `scripts/natas_get.sh` para peticiones GET autenticadas rápidas desde la terminal.
-- **[scripts/solve_level.py](scripts/solve_level.py)**: script único en Python puro (solo `requests`, sin dependencias exóticas) que automatiza la explotación de los 34 niveles (0→33), reproduciendo exactamente la técnica de cada writeup. Uso: `python3 scripts/solve_level.py --level N [--password XXX] [--all]`; guarda cada contraseña obtenida en `scripts/passwords.json` (no versionado, ver `.gitignore`), así que en llamadas siguientes `--password` es opcional. **Validado en vivo de punta a punta contra el servidor real, dos veces** (una encadenando desde el nivel 11 tras corregir varios bugs, otra desde el nivel 0 en limpio): las 34 contraseñas obtenidas coinciden exactamente con `scripts/creds.txt`.
-- Bugs reales encontrados y corregidos mientras se probaba el script (más allá de los ya reflejados en los writeups):
+- Bugs reales encontrados y corregidos mientras se probaba la automatización local de niveles (más allá de los ya reflejados en los writeups):
   - Un helper `first_pw()` que buscaba "la primera cadena de 32 alfanuméricos" en la respuesta a veces capturaba la propia contraseña del nivel actual (visible en `wechallinfo`) o, en el nivel 30, una subcadena desplazada porque el Perl imprime `usuario+contraseña` pegados sin separador.
   - El nivel 11 (cookie XOR) fallaba si el keystream derivado no se reducía a su período real antes de cifrar un texto de longitud distinta al original.
   - El nivel 17 (SQLi basada en tiempo) podía dar un carácter erróneo si otra petición concurrente al mismo servidor añadía suficiente jitter como para simular un `SLEEP()`; se corrigió exigiendo dos mediciones lentas consecutivas antes de aceptar un carácter, y evitando lanzar el script en paralelo con otras peticiones al mismo nivel.
